@@ -45,54 +45,78 @@ const biggestFollower = function (data) {
 };
 //biggestFollower(data);
 
-
-const allFollowers = function (userID) {
+const listFollowers = function (userID) {
   const result = Object.keys(data).filter(id =>
     data[id]['follows'].includes(userID)
     );
     return result.map(id => data[id]['name']);
-  };
-  
-  const mostPopular = function (data) {
+};
+
+const listNonFollowers = function (userID) {
+  for (user in data) {
+    const result = Object.keys(data).filter(id =>
+      (data[id]['follows'].includes(userID))
+      );
+      return result.map(id => data[id]['name']);
+  }
+    return result
+};
+
+
+const mostPopular = function (data) {
     let result = '';
     let counter = 0;
     let list = []
     for (user in data) {
-      let followerLength = allFollowers(user).length
+      let followerLength = listFollowers(user).length
       if (followerLength === counter) {
         counter = followerLength;
         result += ' and ' + data[user]['name'];
-        list += ' / ' + allFollowers(user)
+        list += ' / ' + listFollowers(user)
       }
       if (followerLength > counter) {
         counter = followerLength
         result = data[user]['name']
-        list = allFollowers(user)
+        list = listFollowers(user)
       }
     }
   console.log(`${result} has the most followers with: ${counter}. Their followers are ${list}`);
 }
-mostPopular(data);
+//mostPopular(data);
 
+const getWhoFollowsNames = function (data) {
+  let resultObj = {};
+  for (user in data) {
+    const name = data[user]['name']
+    const followsIDs = data[user]['follows'];
+    const followsNames = followsIDs.map(id => data[id]['name']);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-const getWhoFollowsNames = function (data, userID) {
-  const followsIDs = data[userID]['follows'];
-  const followsNames = followsIDs.map(id => data[id]['name']);
-  return followsNames;
+    resultObj[name] = {
+      follows: followsNames,
+      followers: listFollowers(user),
+      unrequitedFollowers: listNonFollowers(user)
+    }
 };
+return resultObj
+}
+console.log(getWhoFollowsNames(data));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
