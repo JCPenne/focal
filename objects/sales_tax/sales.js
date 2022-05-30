@@ -1,13 +1,3 @@
-// Calculate total sales and total tax per company
-/* Create a function that takes in two parameters: salesData, taxRates DONE
-Iterate over each object within companySalesData
-Find it's name and create a nested object called ${name}
-Find it's province (this will decide which item in salesTaxRates is used)
-Combine all of it's sales and add that into the pre-created nested object
-Multiply the total sales value by the TaxRate value for it's corresponding province
-Return an object that has a nested object for each company being iterated over
-Within each nested object, include the company name, it's total sales, and it's total tax
-*/
 const salesTaxRates = {
   AB: 0.05,
   BC: 0.12,
@@ -31,24 +21,55 @@ const companySalesData = [
   },
 ];
 
-const finalResultObject = {};
-const calculateSalesTax = function (salesData, taxRates) {
-  //console.log(Object.entries(salesData));
-  for (companies in salesData) {
-    console.log(salesData[companies]);
-  }
-};
-
-const salesTotals = function (salesArray) {
-  return salesArray.reduce(
+//Function to reduce sales down to one total number.
+const salesTotals = function () {
+  return company.sales.reduce(
     (previousValue, currentValue) => previousValue + currentValue
   );
 };
-
-const calculateTaxTotals = function (sales, taxRate) {
-  return salesTotals(sales) * taxRate;
+//Function to calculate the total tax owed. Takes in a total number from salesTotals function.
+const taxTotals = function (salesTotals, companyTaxRate) {
+  const taxTotals = salesTotals * companyTaxRate;
+  return taxTotals;
 };
 
-//console.log(calculateSalesTotals([100, 500, 400]));
-console.log(calculateTaxTotals([100, 500, 400], 0.1));
-//console.log(calculateSalesTax(companySalesData, salesTaxRates));
+const calculateSalesTax = function (companySalesData, taxRates) {
+  //creat empty object
+  resultObj = {};
+  //iterate through each object within companySalesData
+  for (company of companySalesData) {
+    //Assigns a key named company.name (i.e. Telus, or Bombardier) which is it's own object
+    // Set company.name's keys to totalSales and totalTaxes and their values to 0 OUTSIDE of the next for loop
+    resultObj[company.name] = {
+      totalSales: 0,
+      totalTaxes: 0,
+    };
+  }
+  //Loop through each object within companySalesData again once our initial object has been created
+  for (company of companySalesData) {
+    //Increment the totalSales key by running the salesTotals function on the sales array within companySalesData.
+    (resultObj[company.name].totalSales += salesTotals(company.sales)),
+      //Increment the totalTaxes key by running taxTotals function with the total number from the previous run of salesTotals, and selecting the applicable
+      // tax rate from the taxRates parameter in the parent function
+      (resultObj[company.name].totalTaxes += taxTotals(
+        salesTotals(companySalesData),
+        taxRates[company.province]
+      ));
+  }
+  return resultObj;
+};
+
+console.log(calculateSalesTax(companySalesData, salesTaxRates));
+
+/* Expected Results:
+  {
+    Telus: {
+      totalSales: 1300,
+      totalTaxes: 144
+    },
+    Bombardier: {
+      totalSales: 800,
+      totalTaxes: 40
+    }
+  }
+  */
