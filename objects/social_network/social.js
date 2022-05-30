@@ -31,93 +31,71 @@ const data = {
   },
 };
 
-//Create a function that RETURNS the NAME of the individual who follows the MOST people. biggestFollower()
 const biggestFollower = function (data) {
-  let counter = 0;
-  let name = '';
-  for (person in data) {
-    let followAmount = data[person]['follows'].length;
-    if (followAmount > counter) {
-      counter = followAmount;
-      name = data[person]['name'];
+  let counter = 0
+  let result = ''
+  for (user in data) {
+    let followList = data[user]['follows'].length;
+    if (followList > counter) {
+      counter = followList;
+      result = data[user]['name']
     }
   }
-  return name;
+  console.log(`${result} has the largest follow list with: ${counter}`);  
 };
-//console.log(biggestFollower(data));
+//biggestFollower(data);
 
-//Create a function which RETURNS the NAME of the MOST FOLLOWED individual
-const mostPopular = function (data) {
-  let resultObj = {};
-  for (person in data) {
-    let name = data[person]['name'];
-    resultObj[name] = {
-      index: person,
-      follows: 0,
-    };
-    for (person in data) {
-      data[person]['follows'].forEach(x => {
-        if (x === resultObj[name]['index']) {
-          resultObj[name]['follows'] += 1;
-        }
-      });
+
+const allFollowers = function (userID) {
+  const result = Object.keys(data).filter(id =>
+    data[id]['follows'].includes(userID)
+    );
+    return result.map(id => data[id]['name']);
+  };
+  
+  const mostPopular = function (data) {
+    let result = '';
+    let counter = 0;
+    let list = []
+    for (user in data) {
+      let followerLength = allFollowers(user).length
+      if (followerLength === counter) {
+        counter = followerLength;
+        result += ' and ' + data[user]['name'];
+        list += ' / ' + allFollowers(user)
+      }
+      if (followerLength > counter) {
+        counter = followerLength
+        result = data[user]['name']
+        list = allFollowers(user)
+      }
     }
-  }
-  let counter2 = 0;
-  let mostPopularPerson = '';
-  for (person in resultObj) {
-    if (resultObj[person]['follows'] >= counter2) {
-      counter2 = resultObj[person]['follows'];
-      mostPopularPerson = person;
-    }
-  }
-  console.log(
-    `The most popular person is ${mostPopularPerson} with ${counter2} followers`
-  );
-};
-//mostPopular(data);
+  console.log(`${result} has the most followers with: ${counter}. Their followers are ${list}`);
+}
+mostPopular(data);
 
-//old printAll function. It's contents are commented out.
-const printAll = function (data) {
-  //   preObj = {};
-  //   for (person in data) {
-  //     let name = data[person]['name'];
-  //     preObj[name] = {
-  //       Index: person,
-  //       FollowsMeta: data[person]['follows'],
-  //       followed_by: [],
-  //       FollowsActual: [],
-  //     };
-  //     for (person in data) {
-  //       let followList = data[person]['follows'];
-  //       for (element of followList) {
-  //         if (element === preObj[name]['Index']) {
-  //           preObj[name]['Followed_By'].push(data[person]['name']);
-  //         }
-  //       }
-  //     }
-  //   }
-  //   for (person in preObj) {
-  //     for (followsList of preObj[person]['FollowsMeta']) {
-  //       for (person2 in preObj) {
-  //         if (preObj[person2]['Index'] === followsList) {
-  //           preObj[person]['FollowsActual'].push(person2);
-  //         }
-  //       }
-  //     }
-  //   }
-  //   const resultObj = {};
-  //   for (person in preObj) {
-  //     resultObj[person] = {
-  //       Follows: preObj[person]['FollowsActual'],
-  //       Followed_By: preObj[person]['Followed_By'],
-  //     };
-  //   }
-  //   return resultObj;
-};
-//console.log(printAll(data));
 
-//Create a function that OUTPUTS a list of EVERYONE and for each of them, who THEY FOLLOW and who FOLLOWS THEM
+
+
+
+
+
+
+
+
+
+
+
+
+
+const getWhoFollowsNames = function (data, userID) {
+  const followsIDs = data[userID]['follows'];
+  const followsNames = followsIDs.map(id => data[id]['name']);
+  return followsNames;
+};
+
+
+
 //New printAll2 function is below, along with it's helper functions
 const createNewObj = function (data) {
   let createdObject = {};
@@ -192,11 +170,14 @@ const populateNonFollowers = function (createdObj, data) {
       //console.log(
       //`Second loop through original data, checking if ${name2} follows ${name}`
       //)
-        if (!followList.includes(originalPerson) && originalPerson !== originalPerson2) {
-          createdObj[name]['not_followed_by'].push(name2);
-        }
+      if (
+        !followList.includes(originalPerson) &&
+        originalPerson !== originalPerson2
+      ) {
+        createdObj[name]['not_followed_by'].push(name2);
       }
     }
+  }
   return createdObj;
 };
 const printAll2 = function (data) {
@@ -206,5 +187,4 @@ const printAll2 = function (data) {
   const masterObj4 = populateNonFollowers(masterObj3, data);
   console.log(masterObj4);
 };
-printAll2(data);
-//Here ends printAll2 function code block
+//printAll2(data);
