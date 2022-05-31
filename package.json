@@ -4,7 +4,7 @@
   "description": "Trying out focal and npm to get Mocha running",
   "main": "test.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",
