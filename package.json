@@ -16,7 +16,8 @@
     "url": "https://github.com/JCPenne/focal/issues"
   },
   "homepage": "https://github.com/JCPenne/focal#readme",
-  "dependencies": {
+  "devDependencies": {
+    "chai": "^4.3.6",
     "mocha": "^10.0.0"
   }
 }
