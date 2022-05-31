@@ -1,36 +1,36 @@
-// var missingNumber = function (nums) {
-//   const length = nums.length;
-//   // console.log(`length = ${length}`);
-//   const arr = [];
-//   let result = 0;
-
-//   for (i = 0; i <= length; i++) {
-//     arr.push(i);
-//   }
-//   // console.log(`arr = ${arr}`);
-//   // console.log(`nums = ${nums}`);
-//   for (num of arr) {
-//     if (!nums.includes(num)) {
-//       result = num;
-//     }
-//   }
-//   return result;
-// };
-
-var missingNumber = function (nums) {
-  sortedArr = nums.sort((a, b) => a - b);
-  console.log(sortedArr);
-  for (num in nums) {
-    if (!nums.includes(num)) {
-      result = num;
-    }
-  }
-  return result;
+const person = {
+  firstName: 'bob',
+  lastName: 'smith',
+  fullName: function () {
+    return this.firstName + ' ' + this.lastName;
+  },
 };
 
-const nums = [3, 0, 1];
-const nums2 = [0, 1];
-const nums3 = [9, 6, 4, 2, 3, 5, 7, 0, 1];
-console.log(missingNumber(nums));
-console.log(missingNumber(nums2));
-console.log(missingNumber(nums3));
+//console.log(`Hello ${person.fullName()}`);
+
+// try {
+//   person === object;
+// } catch {
+//   console.log(`person is an Object`);
+// }
+
+//console.log(sayHello('Jack'));
+// console.assert(sayHello('Chantal') === 'Hello there, Jack.', 'sayhello returned malformed string.');
+// console.table({
+//   expected: 'Hello there, Jack.',
+//   actual: sayHello('Chantal'),
+//   passed: this.actual === 'Hello there, Jack.'
+// });
+
+// const assert = require('assert');
+
+// const actual = sayHello('Jack')
+// const expected = 'Hello there, Jack!';
+
+// assert.strictEqual(actual,expected);
+
+const {sayHello} = require('./say-hello.js');
+console.log(sayHello('Jack'));
+
+const {sayBye} = require('./say-hello.js');
+console.log(sayBye('Jack'));

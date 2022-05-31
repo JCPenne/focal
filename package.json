@@ -1,0 +1,22 @@
+{
+  "name": "focal",
+  "version": "1.0.0",
+  "description": "Trying out focal and npm to get Mocha running",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JCPenne/focal.git"
+  },
+  "author": "JCPenne",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JCPenne/focal/issues"
+  },
+  "homepage": "https://github.com/JCPenne/focal#readme",
+  "dependencies": {
+    "mocha": "^10.0.0"
+  }
+}
